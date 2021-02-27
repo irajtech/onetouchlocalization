@@ -2,8 +2,8 @@
 //  SceneDelegate.swift
 //  OneTouchLocalisation
 //
-//  Created by Rajkumar Kothandaraman on 27/02/2021.
-//
+//  Created by Raj. on 27/02/2021.
+//  Copyright © 2020 Raj. All rights reserved.
 
 import UIKit
 
@@ -16,7 +16,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
+
+        self.window!.makeKeyAndVisible()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -50,3 +51,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 }
 
+
+
+extension SceneDelegate: ViewResetable {
+    
+    func reset() {
+        UIView.transition(with: window!, duration: 1, options: .transitionCrossDissolve, animations: {
+            DispatchQueue.main.async {
+                self.setUpHomeView()
+            }
+        }, completion: nil)
+    }
+
+    func setUpHomeView() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let homeScreenView = storyboard.instantiateViewController(identifier: "ViewController")
+        self.window?.rootViewController = homeScreenView
+        self.window?.makeKeyAndVisible()
+    }
+
+}
